@@ -11,7 +11,7 @@ $ yarn add wkdatepick
 ## B 端拖拽日历组件
 
 ```` html
-<wk-datepick />
+<wk-datepick @dateChange="curDate" :curDateList="dateList"/>
 ````
 
 
