@@ -63,19 +63,20 @@
   </div>
 </template>
 <script>
+  /* eslint-disable */
   import WeRegion from 'we-region';
   export default {
-    name: "WkDatepick",
+    name: 'WkDatepick',
     props: {
-      curDateList:{
-        default: []
+      curDateList: {
+        default: [],
       },
     },
     data() {
       return {
-        parentDateList: [],//父组件传递过来的用于回显数组
-        seats:[],//初始化总格子数
-        curSelectSeats:[],//当前选中
+        parentDateList: [], //父组件传递过来的用于回显数组
+        seats: [], //初始化总格子数
+        curSelectSeats: [], //当前选中
         selectedSeats: [], //最终选中所有的集合
         weRegion: null,
         rows: 48, //列显示数量
@@ -85,69 +86,68 @@
         columns: 7, //行显示数量
         hoverid: '',
         hovertit: '',
-        timeArr:[],
-        timeArrOne:[],
-        timeArrTwo:[],
-        dayArr:[
+        timeArr: [],
+        timeArrOne: [],
+        timeArrTwo: [],
+        dayArr: [
           {
-            name:'星期一'
+            name: '星期一',
           },
           {
-            name:'星期二'
+            name: '星期二',
           },
           {
-            name:'星期三'
+            name: '星期三',
           },
           {
-            name:'星期四'
+            name: '星期四',
           },
           {
-            name:'星期五'
+            name: '星期五',
           },
           {
-            name:'星期六'
+            name: '星期六',
           },
           {
-            name:'星期日'
-          }
+            name: '星期日',
+          },
         ],
         //只是用来显示已选数组.和日历选中无关
-        finalShowArr:[]
+        finalShowArr: [],
       };
     },
-    methods:{
+    methods: {
       //清空数据
       delSelect() {
         //修改样式
-        this.selectedSeats.map(seat=>{
+        this.selectedSeats.map((seat) => {
           const $ = el => document.querySelector(el);
-          $(`#${seat}`).classList.remove('seat--hover')
-        })
-        this.selectedSeats=[]
+          $(`#${seat}`).classList.remove('seat--hover');
+        });
+        this.selectedSeats = [];
       },
       //隐藏title
       hideTitle() {
         const $ = el => document.querySelector(el);
-        this.hovertit = ''
-        this.seats.map(item=>{
-          $(`#${item.sid}`).classList.remove('seat--curhover')
-        })
+        this.hovertit = '';
+        this.seats.map((item) => {
+          $(`#${item.sid}`).classList.remove('seat--curhover');
+        });
       },
       //title文案
       seatTitle(id) {
         const $ = el => document.querySelector(el);
         const tltles = this.seats.find(val => val.sid === id);
-        this.seats.map(item=>{
-          if(item.sid==id){
-            $(`#${item.sid}`).classList.add('seat--curhover')
+        this.seats.map((item) => {
+          if (item.sid == id) {
+            $(`#${item.sid}`).classList.add('seat--curhover');
+          } else {
+            $(`#${item.sid}`).classList.remove('seat--curhover');
           }
-          else {
-            $(`#${item.sid}`).classList.remove('seat--curhover')
-          }
-        })
+        });
         let tit = '';
         if (tltles) {
-          tit = `${this.dayArr[tltles.Y-1].name} ${this.timeArr[tltles.X-1]}`;
+          tit = `${this.dayArr[tltles.Y - 1].name} ${this.timeArr[tltles.X - 1]}`;
         }
         return tit;
       },
@@ -163,55 +163,55 @@
         }
       },
       //选中结束
-      end({ startX, startY, width, height }) {
-        this.curSelectSeats=[];
+      end({
+        startX, startY, width, height,
+      }) {
+        this.curSelectSeats = [];
         const $ = el => document.querySelector(el);
-        if(startX || startY || width || height){
+        if (startX || startY || width || height) {
           this.weRegion.clear();
-          setTimeout( ()=> {//处理边界选取不清除问题
+          setTimeout(() => { //处理边界选取不清除问题
             this.weRegion.clear();
-          },200)
+          }, 200);
         }
         const selectedSeats = this.seats
-          .filter(seat => {
-            return this.weRegion.isRectCross({
-              x:(seat.X-1) * this.seatWidth ,
-              y: (seat.Y-1) * this.seatHeight,
-              width: this.seatWidth,
-              height: this.seatHeight,
-            })
-          })
-          .map(seat => seat.sid)
-        this.curSelectSeats=JSON.parse(JSON.stringify(selectedSeats));
+          .filter(seat => this.weRegion.isRectCross({
+            x: (seat.X - 1) * this.seatWidth,
+            y: (seat.Y - 1) * this.seatHeight,
+            width: this.seatWidth,
+            height: this.seatHeight,
+          }))
+          .map(seat => seat.sid);
+        this.curSelectSeats = JSON.parse(JSON.stringify(selectedSeats));
         //起始位置this.curSelectSeats[0]没有就添加否则删除（this.curSelectSeats[0]之前如果已经被选中，再次选中时清除当前拉选框数据）
-        if(this.selectedSeats.indexOf(this.curSelectSeats[0])==-1){
-          this.curSelectSeats.forEach(item=>{
+        if (this.selectedSeats.indexOf(this.curSelectSeats[0]) == -1) {
+          this.curSelectSeats.forEach((item) => {
             //这里需要去重否则 就导致了重复数据所以this.uniqueSelect(val)需要去重复
-            let hasUni=false;
-            this.selectedSeats.forEach(selItem=>{
-              if (selItem==item) {
-                hasUni=true
+            let hasUni = false;
+            this.selectedSeats.forEach((selItem) => {
+              if (selItem == item) {
+                hasUni = true;
               }
-            })
-            if(!hasUni) {
-              this.selectedSeats.push(item)
+            });
+            if (!hasUni) {
+              this.selectedSeats.push(item);
             }
-          })
-          this.selectedSeats.map(seat=>{
-            $(`#${seat}`).classList.add('seat--hover')
-          })
+          });
+          this.selectedSeats.map((seat) => {
+            $(`#${seat}`).classList.add('seat--hover');
+          });
         } else {
-          for(var i=this.selectedSeats.length-1;i>=0;i--){
-            this.curSelectSeats.forEach(item=>{
-              if (item==this.selectedSeats[i]){
-                this.selectedSeats.splice(i,1)
+          for (var i = this.selectedSeats.length - 1; i >= 0; i--) {
+            this.curSelectSeats.forEach((item) => {
+              if (item == this.selectedSeats[i]) {
+                this.selectedSeats.splice(i, 1);
               }
-            })
+            });
           }
           //this.selectedSeats数组删除已选项this.curSelectSeats
-          this.curSelectSeats.map(seat=>{
-            $(`#${seat}`).classList.remove('seat--hover')
-          })
+          this.curSelectSeats.map((seat) => {
+            $(`#${seat}`).classList.remove('seat--hover');
+          });
         }
       },
       // move({ startX, startY, width, height }) {
@@ -244,21 +244,21 @@
         this.seats = this.setDom(this.rows, this.columns);
         this.weRegion = new WeRegion(this.$refs.mask, {
           borderColor: 'rgba(250,117,22,0.6)',
-          bodyColor:'rgba(250,117,22,0.6)',
+          bodyColor: 'rgba(250,117,22,0.6)',
           end: this.end,
-          zIndex:10000
+          zIndex: 10000,
           // move:this.move
         });
       },
       //初始化格子数
-      setDom(rows,columns,) { //根据数量创建带行列的数组
+      setDom(rows, columns) { //根据数量创建带行列的数组
         const seatL = Number(rows || 0);
         // const seatL = Number(rows || 0) >=Number(columns || 0) ? rows : columns;
-        const  lengths = rows*columns;
-        return Array.from({length: lengths}, (a, i) => ({
-          sid: `seaty${(Math.floor(i / seatL))+1}x${(i % seatL)+1}`,
-          Y: (Math.floor(i / seatL))+1,//行
-          X: (i % seatL)+1,//列
+        const lengths = rows * columns;
+        return Array.from({ length: lengths }, (a, i) => ({
+          sid: `seaty${(Math.floor(i / seatL)) + 1}x${(i % seatL) + 1}`,
+          Y: (Math.floor(i / seatL)) + 1, //行
+          X: (i % seatL) + 1, //列
           // pr: ~~(i / columns),
           // pc: i % columns,
         }));
@@ -266,12 +266,12 @@
       //模拟反向赋值
       setData() {
         //修改最终数组
-        this.selectedSeats=[]
-        this.parentDateList.forEach(item=>{
-          item.xlist.forEach(sonItem=>{
-            this.selectedSeats.push(sonItem.sid)
-          })
-        })
+        this.selectedSeats = [];
+        this.parentDateList.forEach((item) => {
+          item.xlist.forEach((sonItem) => {
+            this.selectedSeats.push(sonItem.sid);
+          });
+        });
         //demo示例
         /*var  demoArr= [
           {
@@ -339,68 +339,68 @@
         ]*/
         // this.selectedSeats=demoArr
         //修改样式
-        setTimeout(()=>{
-          this.selectedSeats.map(seat=>{
+        setTimeout(() => {
+          this.selectedSeats.map((seat) => {
             const $ = el => document.querySelector(el);
-            $(`#${seat}`).classList.add('seat--hover')
-          })
-        },500)
+            $(`#${seat}`).classList.add('seat--hover');
+          });
+        }, 500);
       },
       //初始化头部时间00:12:00,12:00-24:00
       initTimeArr() {
-        for(let i=0;i<24;i++){
-          let m1=i<10?`0${i}:00 - 0${i}:30`:`${i}:00 - ${i}:30`;
-          let m2=i+1<10?`0${i}:30 - 0${i+1}:00`:i+1==10?`0${i}:30 - ${i+1}:00`:`${i}:30 - ${i+1}:00`;
-          this.timeArr.push(m1)
-          this.timeArr.push(m2)
-          if(i<12){
-            this.timeArrOne.push({name:i})
-          }else {
-            this.timeArrTwo.push({name:i})
+        for (let i = 0; i < 24; i++) {
+          const m1 = i < 10 ? `0${i}:00 - 0${i}:30` : `${i}:00 - ${i}:30`;
+          const m2 = i + 1 < 10 ? `0${i}:30 - 0${i + 1}:00` : i + 1 == 10 ? `0${i}:30 - ${i + 1}:00` : `${i}:30 - ${i + 1}:00`;
+          this.timeArr.push(m1);
+          this.timeArr.push(m2);
+          if (i < 12) {
+            this.timeArrOne.push({ name: i });
+          } else {
+            this.timeArrTwo.push({ name: i });
           }
         }
       },
       //循环合并所有可能合并的时间段
       initJoinTime(xTimeArr) {
-        let finalxTimeArr=xTimeArr.slice(0)
-        let m =[]
-        while (finalxTimeArr.length>1) {
-          m = this.joinTime(finalxTimeArr)
-          var pre=m.slice(0)
-          if (JSON.stringify(pre)==JSON.stringify(finalxTimeArr)) {
-            break
+        let finalxTimeArr = xTimeArr.slice(0);
+        let m = [];
+        while (finalxTimeArr.length > 1) {
+          m = this.joinTime(finalxTimeArr);
+          const pre = m.slice(0);
+          if (JSON.stringify(pre) == JSON.stringify(finalxTimeArr)) {
+            break;
           } else {
-            finalxTimeArr=m.slice(0)
+            finalxTimeArr = m.slice(0);
           }
-          if (finalxTimeArr.length==1) break
+          if (finalxTimeArr.length == 1) break;
         }
-        return finalxTimeArr
+        return finalxTimeArr;
       },
       //合并时间段
-      joinTime (data) {
-        var result = []
-        let tempArr = data.slice(0)
+      joinTime(data) {
+        const result = [];
+        const tempArr = data.slice(0);
         while (tempArr.length) {
-          let current = tempArr.shift()
-          if (!tempArr.length){
-            result.push(current)
-            break
+          const current = tempArr.shift();
+          if (!tempArr.length) {
+            result.push(current);
+            break;
           }
-          let joinItem = tempArr.find(time => current.slice(-5) === time.slice(0, 5))
+          const joinItem = tempArr.find(time => current.slice(-5) === time.slice(0, 5));
           if (joinItem) {
-            result.push(`${current.slice(0, 5)} - ${joinItem.slice(-5)}`)
-            tempArr.shift()
+            result.push(`${current.slice(0, 5)} - ${joinItem.slice(-5)}`);
+            tempArr.shift();
           } else {
-            result.push(current)
+            result.push(current);
           }
         }
-        return result
+        return result;
       },
       //排序Y值
       sortY(newArr) {
-        for (let i=0;i<newArr.length;i++){
-          for(var j=i; j<newArr.length;j++) {
-            if ( newArr[i].yvalue> newArr[j].yvalue) {
+        for (let i = 0; i < newArr.length; i++) {
+          for (let j = i; j < newArr.length; j++) {
+            if (newArr[i].yvalue > newArr[j].yvalue) {
               var min;
               //如果newArr[i]大就把此时的值赋值给最大值变量min
               min = newArr[j];
@@ -409,15 +409,15 @@
             }
           }
         }
-        return newArr
+        return newArr;
       },
       //排序X值
       sortX(xTimeArr) {
-        for (let i=0;i<xTimeArr.length;i++){
-          for(var j=i; j<xTimeArr.length;j++) {
-            let pre = xTimeArr[i].slice(0, 5)
-            let next =xTimeArr[j].slice(0, 5)
-            if ( pre> next) {
+        for (let i = 0; i < xTimeArr.length; i++) {
+          for (let j = i; j < xTimeArr.length; j++) {
+            const pre = xTimeArr[i].slice(0, 5);
+            const next = xTimeArr[j].slice(0, 5);
+            if (pre > next) {
               var min;
               //如果xTimeArr[i]大就把此时的值赋值给最大值变量min
               min = xTimeArr[j];
@@ -426,7 +426,7 @@
             }
           }
         }
-        return xTimeArr
+        return xTimeArr;
       },
       //选中区域去重
       // uniqueSelect(valArr){
@@ -438,12 +438,12 @@
       //   return hashVal;
       // }
     },
-    watch:{
+    watch: {
       //观察选中和点击的数据并进行处理
       selectedSeats: {
-        handler(val){
+        handler(val) {
           //清空最终保存数组
-          this.finalShowArr=[];
+          this.finalShowArr = [];
 
           //val格式为["seaty7x7", "seaty7x8"]
 
@@ -467,14 +467,16 @@
            }
          ]
          * */
-          let final=[]
-          val.forEach(item=>{
-            let first=item.split('y');
-            let sec=first[1].split('x')
-            let y=sec[0];
-            let x=sec[1];
-            final.push({y:this.dayArr[y-1].name,yvalue:(y-1),x:this.timeArr[x-1],sid:item})
-          })
+          const final = [];
+          val.forEach((item) => {
+            const first = item.split('y');
+            const sec = first[1].split('x');
+            const y = sec[0];
+            const x = sec[1];
+            final.push({
+              y: this.dayArr[y - 1].name, yvalue: (y - 1), x: this.timeArr[x - 1], sid: item,
+            });
+          });
 
           //hashArr是用于排除Y重是否重复，newArr临时存储的最终数组
           //newArr整合第一步
@@ -497,21 +499,22 @@
               }
             ]
           * */
-          let hashArr = [], newArr = []
+          let hashArr = [],
+            newArr = [];
           for (let i = 0; i < final.length; i++) {
             //y值不重复
             if (hashArr.indexOf(final[i].y) === -1) {
               newArr.push({
                 y: final[i].y,
-                yvalue:final[i].yvalue,
-                xlist: [{x:final[i].x,sid:final[i].sid}]
-              })
+                yvalue: final[i].yvalue,
+                xlist: [{ x: final[i].x, sid: final[i].sid }],
+              });
               hashArr.push(final[i].y);
-            } else {   //y值重复
+            } else { //y值重复
               for (let j = 0; j < newArr.length; j++) {
                 if (newArr[j].y == final[i].y) {
                   //先去重复再合并(不存在重复),将newArr[j].xlist中是否存在重复
-                  newArr[j].xlist.push({x:final[i].x,sid:final[i].sid})
+                  newArr[j].xlist.push({ x: final[i].x, sid: final[i].sid });
                 }
               }
             }
@@ -538,42 +541,42 @@
               }
             ]
           * */
-          newArr.forEach(item=>{
+          newArr.forEach((item) => {
             //用于显示的X数据，只是有时间段的数组如["03:00-06:00", "07:00-11:00"]
-            let xTimeArr=[];
-            item.xlist.forEach(sonItem=>{
-              xTimeArr.push(sonItem.x)
-            })
+            let xTimeArr = [];
+            item.xlist.forEach((sonItem) => {
+              xTimeArr.push(sonItem.x);
+            });
             //排序X值,便于合并相同或相邻时间段
-            xTimeArr=this.sortX(xTimeArr)
+            xTimeArr = this.sortX(xTimeArr);
             //合并时间段
             //xSummarylist用于在已选择中显示的合并后的数组
-            item.xSummarylist= this.initJoinTime(xTimeArr)
-          })
+            item.xSummarylist = this.initJoinTime(xTimeArr);
+          });
 
           //排序Y值用于再已选择中从星期一开始-星期日
-          newArr=this.sortY(newArr)
+          newArr = this.sortY(newArr);
 
           //this.finalShowArr最终保存数据，显示数据
-          this.finalShowArr=JSON.parse(JSON.stringify(newArr))
+          this.finalShowArr = JSON.parse(JSON.stringify(newArr));
 
           //通知父组件值有变化
-          this.$emit('dateChange',this.finalShowArr)
+          this.$emit('dateChange', this.finalShowArr);
         },
-        deep:true //true 深度监听
+        deep: true, //true 深度监听
       },
     },
     mounted() {
       //根据父组件传递数组进行回显
-      this.parentDateList=this.curDateList;
+      this.parentDateList = this.curDateList;
       //初始化时间
       this.initTimeArr();
       //初始化画布
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.seatInfo();
         //模拟方向赋值
-      })
-      this.setData()
-    }
+      });
+      this.setData();
+    },
   };
 </script>

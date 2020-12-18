@@ -1,4 +1,5 @@
 // 组件
+/* eslint-disable */
 import WkDatepick from './datepick/index';
 
 const waterCpt = {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 var path = require('path');
 var chalk = require('chalk');
 var webpack = require('webpack');
@@ -17,7 +18,7 @@ function resolve (dir) {
 
 module.exports = {
   cache: true,
-  entry: `./${utils.outname()}/wkheader.js`,
+  entry: `./${utils.outname()}/wkdatepick.js`,
   mode: 'development',
   output: {
     path: path.resolve(__dirname, '../dist'),

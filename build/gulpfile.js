@@ -1,5 +1,5 @@
+/* eslint-disable */
 'use strict';
-
 var gulp = require( 'gulp' );
 var postcss = require( 'gulp-postcss' );
 var cssmin = require( 'gulp-cssmin' );
@@ -14,7 +14,7 @@ var pkg = require( '../package.json' );
 const banner = require( './banner' )(true);
 
 gulp.task( 'compile', function() {
-  gulp.src( '../wkheader/**/*.less' )
+  gulp.src( '../wkdatepick/**/*.less' )
       .pipe( less() )
       .pipe( autoprefixer( { browsers: salad.browsers, cascade: false } ) )
       .pipe( postcss( [ salad ] ) ).pipe( cssmin() )

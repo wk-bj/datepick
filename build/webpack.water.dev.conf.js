@@ -1,3 +1,4 @@
+/* eslint-disable */
 var path = require('path');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
@@ -17,7 +18,7 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../wkheader'),
+        from: path.resolve(__dirname, '../wkdatepick'),
         to: '',
         ignore: ['.*', '*.md', '.vuepress/**/*', '*.test.*']
       }
