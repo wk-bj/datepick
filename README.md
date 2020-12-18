@@ -5,6 +5,7 @@
 ## 安装
 
 ```
+$ npm install wkdatepick
 $ yarn add wkdatepick
 ```
 
@@ -36,4 +37,7 @@ $ yarn add wkdatepick
 - npm >= 5.0.0
 
 ## 样式采用less
+
+## github地址
+https://github.com/wk-bj/datepick
 

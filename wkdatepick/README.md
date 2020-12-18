@@ -11,7 +11,8 @@ footer: MIT Licensed | Copyright © 2020-present hongsusu
 ### 安装
 
 ``` bash
-yarn add wkdatepick
+$ npm install wkdatepick
+$ yarn add wkdatepick
 ```
 
 ::: warning 注意

@@ -2,6 +2,14 @@
 > 基于Vue.js 的 前端业务组件。
 
 ## B 端拖拽日历组件
+
+### 安装
+
+``` bash
+$ npm install wkdatepick
+$ yarn add wkdatepick
+```
+
 > Vue 引入
 
 <wk-datepick @dateChange="curDate" :curDateList="dateList"/>
